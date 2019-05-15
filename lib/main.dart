@@ -8,37 +8,31 @@ void main() => runApp(MyApp());
 
 /// This Widget is the main application widget.
 class MyApp extends StatelessWidget {
-  static const String _title = 'Flutter Code Sample';
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: _title,
-      home: MyStatelessWidget(),
-    );
+        title: "FLUTTER DEMO",
+        theme: ThemeData(primarySwatch: Colors.blue),
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text('Hello Hapo I\'m Flutter'),
+          ),
+          body: Text(
+            'Yeah',
+            style: TextStyle(fontSize: 30),
+          ),
+        ));
   }
 }
 
-/// This is the stateless widget that the main application instantiates.
-class MyStatelessWidget extends StatelessWidget {
-  MyStatelessWidget({Key key}) : super(key: key);
+class HelloPage extends StatefulWidget {
+  @override
+  _HelloPageState createState() => _HelloPageState();
+}
 
+class _HelloPageState extends State<HelloPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Ready, Set, Shop!'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            tooltip: 'Open shopping cart',
-            onPressed: () {
-              // Implement navigation to shopping cart page here...
-              print('Shopping cart opened.');
-            },
-          ),
-        ],
-      ),
-    );
+    return Container();
   }
 }
