@@ -3,7 +3,6 @@
 // This sample shows adding an action to an [AppBar] that opens a shopping cart.
 
 import 'package:flutter/material.dart';
-import 'placeholder_widget.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,61 +11,53 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: "FLUTTER DEMO",
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: HelloPage('Hello', 'Hapo'));
+      title: 'Planets',
+      home: HomePage(),
+    );
   }
 }
 
-class HelloPage extends StatefulWidget {
-  final String title;
-  final String contents;
-
-  HelloPage(this.title, this.contents);
-
-  @override
-  _HelloPageState createState() => _HelloPageState();
-}
-
-class _HelloPageState extends State<HelloPage> {
-
-  int _currentIndex = 0;
-  final List<Widget> _children = [
-    PlaceholderWidget(Colors.white),
-    PlaceholderWidget(Colors.deepOrange),
-    PlaceholderWidget(Colors.green)
-  ];
-
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title)),
-      body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped,
-        currentIndex: _currentIndex,
-        items:[
-          BottomNavigationBarItem(
-              icon: new Icon(Icons.home),
-              title: new Text('Home')
-          ),
-          BottomNavigationBarItem(
-              icon: new Icon(Icons.mail),
-              title: new Text('Messages')
-          ),
-          BottomNavigationBarItem(
-              icon: new Icon(Icons.person),
-              title: new Text('Profile')
-          ),
-        ]
+      body: Column(
+        children: <Widget>[GradientAppBar('trevar')],
       ),
     );
   }
+}
 
-  void onTabTapped(int index){
-    setState(() {
-      _currentIndex = index;
-    });
+class GradientAppBar extends StatelessWidget {
+  final String title;
+  final double barHeight = 66.0;
+
+  GradientAppBar(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+
+    return Container(
+      padding: EdgeInsets.only(top: statusBarHeight),
+      height: barHeight,
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [const Color(0xFF3366FF), const Color(0xFF00CCFF)],
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(0.5, 0.0),
+              stops: [0.0, 0.5],
+              tileMode: TileMode.clamp)),
+      child: Center(
+        child: Text(
+          title,
+          style: const TextStyle(
+              color: Colors.white,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w600,
+              fontSize: 36.0),
+        ),
+      ),
+    );
   }
-
 }
