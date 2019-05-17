@@ -1,6 +1,3 @@
-// Flutter code sample for material.AppBar.actions.1
-
-// This sample shows adding an action to an [AppBar] that opens a shopping cart.
 
 import 'package:flutter/material.dart';
 import 'placeholder_widget.dart';
@@ -51,16 +48,16 @@ class _HomePageState extends State<HomePage> {
           currentIndex: _currentIndex,
           items:[
             BottomNavigationBarItem(
-                icon: new Icon(Icons.home),
-                title: new Text('Home')
+                icon: Icon(Icons.home),
+                title: Text('Home')
             ),
             BottomNavigationBarItem(
-                icon: new Icon(Icons.mail),
-                title: new Text('Messages')
+                icon: Icon(Icons.mail),
+                title: Text('Messages')
             ),
             BottomNavigationBarItem(
-                icon: new Icon(Icons.person),
-                title: new Text('Profile')
+                icon: Icon(Icons.person),
+                title: Text('Profile')
             ),
           ]
       ),

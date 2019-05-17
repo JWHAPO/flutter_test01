@@ -7,8 +7,18 @@ class PlaceholderWidget extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: color,
+    return Scaffold(
+      body: Container(
+          child: Row(
+            children: <Widget>[
+              Text('aaaa'),
+              Icon(Icons.accessibility,size: 100.0,),
+              MaterialButton(onPressed: null,
+                height: 120.0,
+              )
+            ],
+          ),
+        ),
     );
   }
 }
