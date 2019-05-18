@@ -1,9 +1,7 @@
 
-import 'package:flutter/material.dart';
-import 'placeholder_widget.dart';
-import 'webview_widget.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,97 +10,79 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage('Trevar'),
+      home: SafeArea(child: HomePage()),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  final String title;
-
-  HomePage(this.title);
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   Completer<WebViewController> _controller = Completer<WebViewController>();
+  WebViewController webViewController;
   int _currentIndex = 0;
-  final List<Widget> _children = [
-    PlaceholderWidget(Colors.white),
-    TestWebView(),
-    PlaceholderWidget(Colors.green)
+  
+  final List<String> _urls = [
+    'https://www.lavalsehotel.com',
+    'http://www.president.go.kr/',
+    'https://www.google.com',
+    'https://www.naver.com',
+    'https://en.m.wikipedia.org/'
   ];
+
+  launchUrl(){
+      this.webViewController.loadUrl(this._urls[_currentIndex]);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.title, style: TextStyle(fontSize: 20),),
-                    actions: <Widget>[
-                      NavigationControls(_controller.future)
-                    ],),
-      body: _children[_currentIndex],
+      body: WebView(
+        initialUrl: _urls[_currentIndex],
+        onWebViewCreated: (WebViewController webViewController) {
+          this.webViewController = webViewController;
+          _controller.complete(webViewController);
+        },
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
       bottomNavigationBar: BottomNavigationBar(
           onTap: onTabTapped,
           currentIndex: _currentIndex,
+          type: BottomNavigationBarType.fixed,
           items:[
             BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                title: Text('Home')
+                title: Text('Main')
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.mail),
-                title: Text('Messages')
+                icon: Icon(Icons.assignment_late),
+                title: Text('Notice')
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                title: Text('Profile')
+                icon: Icon(Icons.calendar_today),
+                title: Text('Book')
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.developer_board),
+                title: Text('Board')
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.help_outline),
+                title: Text('Inquery'),
             ),
           ]
       ),
     );
   }
 
-  void onTabTapped(int index){
+  void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
+      launchUrl();
     });
   }
-
 }
-
-
-//class GradientAppBar extends StatelessWidget {
-//  final String title;
-//  final double barHeight = 66.0;
-//
-//  GradientAppBar(this.title);
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    final double statusBarHeight = MediaQuery.of(context).padding.top;
-//
-//    return Container(
-//      padding: EdgeInsets.only(top: statusBarHeight, bottom: statusBarHeight),
-//      height: barHeight,
-//      decoration: BoxDecoration(
-//          gradient: LinearGradient(
-//              colors: [const Color(0xFF3366FF), const Color(0xFF00CCFF)],
-//              begin: const FractionalOffset(0.0, 0.0),
-//              end: const FractionalOffset(0.5, 0.0),
-//              stops: [0.0, 0.5],
-//              tileMode: TileMode.clamp)),
-//      child: Center(
-//        child: Text(
-//          title,
-//          style: const TextStyle(
-//              color: Colors.white,
-//              fontFamily: 'Poppins',
-//              fontWeight: FontWeight.w600,
-//              fontSize: 36.0),
-//        ),
-//      ),
-//    );
-//  }
-//}

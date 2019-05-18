@@ -3,18 +3,26 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'dart:async';
 
 class TestWebView extends StatefulWidget {
+  final String url;
+
+  TestWebView(this.url);
+
   @override
-  _TestWebViewState createState() => _TestWebViewState();
+  _TestWebViewState createState() => _TestWebViewState(url);
 }
 
 class _TestWebViewState extends State<TestWebView> {
+  final String url;
   Completer<WebViewController> _controller = Completer<WebViewController>();
+
+  _TestWebViewState(this.url);
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: WebView(
-        initialUrl: 'https://www.naver.com',
+        initialUrl: this.url,
         onWebViewCreated: (WebViewController webViewController) {
           _controller.complete(webViewController);
         },
