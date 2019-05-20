@@ -10,13 +10,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SafeArea(child: HomePage()),
+      home: SafeArea(child: HomePage('La Valse')),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class HomePage extends StatefulWidget {
+  final String title;
+
+
+  HomePage(this.title);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -41,6 +46,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+        actions: <Widget>[
+          NavigationControls(_controller.future),
+        ],
+      ),
       body: WebView(
         initialUrl: _urls[_currentIndex],
         onWebViewCreated: (WebViewController webViewController) {
@@ -86,3 +97,44 @@ class _HomePageState extends State<HomePage> {
     });
   }
 }
+
+class NavigationControls extends StatelessWidget {
+  final Future<WebViewController> _webViewcontrollerFuture;
+
+  const NavigationControls(this._webViewcontrollerFuture) : assert(_webViewcontrollerFuture != null);
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<WebViewController>(
+      future: _webViewcontrollerFuture,
+      builder: (BuildContext context, AsyncSnapshot<WebViewController> snapshot){
+        final  bool webViewReady = snapshot.connectionState ==ConnectionState.done;
+        final WebViewController controller = snapshot.data;
+        return Row(
+          children: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: !webViewReady?null:()=>navigate(context, controller, goBack: true),
+            ),
+            IconButton(
+              icon: const Icon(Icons.arrow_forward_ios),
+              onPressed: !webViewReady?null:()=>navigate(context, controller, goBack: false),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  navigate(BuildContext context, WebViewController controller, {bool goBack: false}) async{
+    bool canNavigate = goBack ? await controller.canGoBack() : await controller.canGoForward();
+    if(canNavigate) {
+      goBack ? controller.goBack() : controller.goForward();
+    }else{
+      Scaffold.of(context).showSnackBar(
+        SnackBar(content: Text("No ${goBack ? 'back' : 'foward'} history item")),
+      );
+    }
+  }
+
+}
+
