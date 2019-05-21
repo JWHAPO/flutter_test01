@@ -59,6 +59,16 @@ class _HomePageState extends State<HomePage> {
           _controller.complete(webViewController);
         },
         javascriptMode: JavascriptMode.unrestricted,
+        navigationDelegate: (NavigationRequest request){
+          if(request.url.startsWith('https://www.naver.')){
+            print('LaValse');
+            return NavigationDecision.prevent;
+          }
+
+          print('gogo');
+          return NavigationDecision.navigate;
+
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
           onTap: onTabTapped,
