@@ -38,7 +38,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-
+    _messaging.getToken().then((token){
+      print(token);
+    });
   }
 
   final List<String> _urls = [
