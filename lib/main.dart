@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     _messaging.getToken().then((token){
+      print('1111::');
       print(token);
     });
   }
