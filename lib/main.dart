@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,7 +31,16 @@ class _HomePageState extends State<HomePage> {
   Completer<WebViewController> _controller = Completer<WebViewController>();
   WebViewController webViewController;
   int _currentIndex = 0;
-  
+
+  final FirebaseMessaging _messaging = FirebaseMessaging();
+
+  @override
+  void initState() {
+    super.initState();
+
+
+  }
+
   final List<String> _urls = [
     'https://www.lavalsehotel.com',
     'http://www.president.go.kr/',
