@@ -38,9 +38,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
+    //PlatformException 발생 시 flutter clean 하고 flutter packages get 한번 돌려봐라
     _messaging.getToken().then((token){
-      print('1111::');
-      print(token);
+      print('firebase token:'+token);
     });
   }
 
