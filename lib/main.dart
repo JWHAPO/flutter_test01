@@ -38,6 +38,11 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
+
+    _messaging.requestNotificationPermissions(
+      const IosNotificationSettings(sound: true, badge: true, alert: true)
+    );
+
     //PlatformException 발생 시 flutter clean 하고 flutter packages get 한번 돌려봐라
     _messaging.getToken().then((token){
       print('firebase token:'+token);
