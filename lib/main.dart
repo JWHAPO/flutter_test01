@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'Constants.dart';
 
 void main() => runApp(MyApp());
 
@@ -38,7 +39,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-
+    //권한을 설정
     _messaging.requestNotificationPermissions(
       const IosNotificationSettings(sound: true, badge: true, alert: true)
     );
@@ -47,6 +48,18 @@ class _HomePageState extends State<HomePage> {
     _messaging.getToken().then((token){
       print('firebase token:'+token);
     });
+
+    _messaging.configure(
+      onMessage: (Map<String, dynamic> message){
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message){
+        print('on message $message');
+      },
+      onLaunch: (Map<String, dynamic> message) {
+        print('on launch $message');
+      },
+    );
   }
 
   final List<String> _urls = [
@@ -68,6 +81,14 @@ class _HomePageState extends State<HomePage> {
         title: Text(widget.title),
         actions: <Widget>[
           NavigationControls(_controller.future),
+          PopupMenuButton<String>(
+           onSelected: choiceAction,
+           itemBuilder: (BuildContext context){
+             return Constants.choices.map((String choice){
+              return PopupMenuItem<String>(child: Text(choice),value: choice,);
+             }).toList();
+           },
+          )
         ],
       ),
       body: WebView(
@@ -123,6 +144,15 @@ class _HomePageState extends State<HomePage> {
       _currentIndex = index;
       launchUrl();
     });
+  }
+
+  void choiceAction(String choice){
+    if(choice == Constants.Settings){
+      print('Settings'); 
+    }else if(choice == Constants.Subscribe){
+      print('Subscribe'); 
+    }
+    
   }
 }
 
