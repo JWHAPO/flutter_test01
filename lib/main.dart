@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatefulWidget {
   final String title;
 
-
   HomePage(this.title);
 
   @override
@@ -148,7 +147,7 @@ class _HomePageState extends State<HomePage> {
 
   void choiceAction(String choice){
     if(choice == Constants.Settings){
-      print('Settings'); 
+      this.webViewController.loadUrl('https://www.daum.net/');
     }else if(choice == Constants.Subscribe){
       print('Subscribe'); 
     }
