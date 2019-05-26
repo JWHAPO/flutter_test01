@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'Constants.dart';
+import 'model/Message.dart';
 
 void main() => runApp(MyApp());
 
@@ -20,7 +21,6 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatefulWidget {
   final String title;
-
   HomePage(this.title);
 
   @override
@@ -42,6 +42,9 @@ class _HomePageState extends State<HomePage> {
     _messaging.requestNotificationPermissions(
       const IosNotificationSettings(sound: true, badge: true, alert: true)
     );
+    _messaging.onIosSettingsRegistered.listen((IosNotificationSettings settings){
+      print('Setting s registered: $settings');
+    });
 
     //PlatformException 발생 시 flutter clean 하고 flutter packages get 한번 돌려봐라
     _messaging.getToken().then((token){
@@ -49,14 +52,21 @@ class _HomePageState extends State<HomePage> {
     });
 
     _messaging.configure(
-      onMessage: (Map<String, dynamic> message){
-        print('on message $message');
+      onMessage: (Map<String, dynamic> message) async {
+        print('onResume $message');
+        setState(() {
+
+        });
       },
-      onResume: (Map<String, dynamic> message){
-        print('on message $message');
+      onResume: (Map<String, dynamic> message) async {
+        final notification = message['data'];
+        final url = notification['url'];
+        print('onResume:$url');
       },
-      onLaunch: (Map<String, dynamic> message) {
-        print('on launch $message');
+      onLaunch: (Map<String, dynamic> message) async {
+        final notification = message['data'];
+        final url = notification['url'];
+        print('onLaunch:$url');
       },
     );
   }
