@@ -2,18 +2,24 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'Constants.dart';
-import 'model/Message.dart';
+import 'data/Actions.dart';
+import 'data/Urls.dart';
+import 'splash_screen.dart';
 
 void main() => runApp(MyApp());
+
+var routes = <String, WidgetBuilder>{
+  '/main':(BuildContext context) => HomePage('La Valse')
+};
 
 /// This Widget is the main application widget.
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage('La Valse'),
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
+      routes: routes,
     );
   }
 }
@@ -69,16 +75,9 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  final List<String> _urls = [
-    'https://www.lavalsehotel.com',
-    'https://www.apple.com/kr/',
-    'https://www.google.com',
-    'https://m.naver.com',
-    'https://en.m.wikipedia.org/'
-  ];
 
   launchUrl() {
-    this.webViewController.loadUrl(this._urls[_currentIndex]);
+    this.webViewController.loadUrl(Urls.urls[_currentIndex]);
   }
 
   Future<bool> _onBackPressed() {
@@ -111,7 +110,7 @@ class _HomePageState extends State<HomePage> {
               PopupMenuButton<String>(
                 onSelected: choiceAction,
                 itemBuilder: (BuildContext context) {
-                  return Constants.choices.map((String choice) {
+                  return Actions.choices.map((String choice) {
                     return PopupMenuItem<String>(
                       child: Text(choice),
                       value: choice,
@@ -122,7 +121,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           body: WebView(
-            initialUrl: _urls[_currentIndex],
+            initialUrl: Urls.urls[_currentIndex],
             onWebViewCreated: (WebViewController webViewController) {
               this.webViewController = webViewController;
               _controller.complete(webViewController);
@@ -165,9 +164,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void choiceAction(String choice) {
-    if (choice == Constants.Settings) {
+    if (choice == Actions.Settings) {
       this.webViewController.loadUrl('https://www.daum.net/');
-    } else if (choice == Constants.Subscribe) {
+    } else if (choice == Actions.Subscribe) {
       print('Subscribe');
     }
   }

@@ -1,4 +1,4 @@
-class Constants{
+class Actions{
   static const String Subscribe = 'Subscribe';
   static const String Settings = 'Settings';
 
