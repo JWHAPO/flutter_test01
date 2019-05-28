@@ -164,9 +164,9 @@ class _HomePageState extends State<HomePage> {
 
   void choiceAction(String choice) {
     if (choice == Actions.Settings) {
-      this.webViewController.loadUrl('https://www.daum.net/');
+      this.webViewController.loadUrl('https://www.daum.net');
     } else if (choice == Actions.Subscribe) {
-      print('Subscribe');
+      this.webViewController.loadUrl('https://www.android.com');
     }
   }
 }
