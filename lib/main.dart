@@ -128,9 +128,8 @@ class _HomePageState extends State<HomePage> {
             },
             javascriptMode: JavascriptMode.unrestricted,
             navigationDelegate: (NavigationRequest request) {
-              if (request.url.startsWith('https://www.naver.')) {
-                // print('LaValse');
-                // return NavigationDecision.prevent;
+              if (request.url.startsWith('###')) {
+                return NavigationDecision.prevent;
               }
               return NavigationDecision.navigate;
             },
