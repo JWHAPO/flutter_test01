@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SplashScreen(),
+      home: SplashScreen(), // 앱이 실행되면 로딩화면을 맨 처음으로 띄운다.
       debugShowCheckedModeBanner: false,
       routes: routes,
     );
