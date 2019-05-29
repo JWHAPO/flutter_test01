@@ -12,7 +12,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 2), () => Navigator.pushReplacementNamed(context, '/main'));
+    Timer(Duration(seconds: 2), () => Navigator.pushReplacementNamed(context, '/main')); // 2초 뒤에 HomePage로 이동
   }
 
   @override
@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
-          Container(
+          Container(//그라데이션이 들어간 Container를 생성.
             decoration: BoxDecoration(
               color: Color(0xffd38213),
               gradient: LinearGradient(

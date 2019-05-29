@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SplashScreen(),
+      home: SplashScreen(), // 앱이 실행되면 로딩화면을 맨 처음으로 띄운다.
       debugShowCheckedModeBanner: false,
       routes: routes,
     );
@@ -128,9 +128,8 @@ class _HomePageState extends State<HomePage> {
             },
             javascriptMode: JavascriptMode.unrestricted,
             navigationDelegate: (NavigationRequest request) {
-              if (request.url.startsWith('https://www.naver.')) {
-                // print('LaValse');
-                // return NavigationDecision.prevent;
+              if (request.url.startsWith('###')) {
+                return NavigationDecision.prevent;
               }
               return NavigationDecision.navigate;
             },
@@ -165,9 +164,9 @@ class _HomePageState extends State<HomePage> {
 
   void choiceAction(String choice) {
     if (choice == Actions.Settings) {
-      this.webViewController.loadUrl('https://www.daum.net/');
+      this.webViewController.loadUrl('https://www.daum.net');
     } else if (choice == Actions.Subscribe) {
-      print('Subscribe');
+      this.webViewController.loadUrl('https://www.android.com');
     }
   }
 }
