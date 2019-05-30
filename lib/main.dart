@@ -1,15 +1,18 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'data/Actions.dart';
 import 'data/Urls.dart';
 import 'splash_screen.dart';
+import 'data/Texts.dart';
 
 void main() => runApp(MyApp());
 
 var routes = <String, WidgetBuilder>{
-  '/main':(BuildContext context) => HomePage('La Valse')
+  '/main':(BuildContext context) => HomePage(Texts.app_bar_title)
 };
 
 /// This Widget is the main application widget.
@@ -84,14 +87,14 @@ class _HomePageState extends State<HomePage> {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text("Do you want to exit?"),
+              title: Text(Texts.msg_exit_question),
               actions: <Widget>[
                 FlatButton(
-                  child: Text('No'),
+                  child: Text(Texts.no),
                   onPressed: () => Navigator.pop(context, false),
                 ),
                 FlatButton(
-                  child: Text('Yes'),
+                  child: Text(Texts.yes),
                   onPressed: () => Navigator.pop(context, true),
                 )
               ],
@@ -133,6 +136,16 @@ class _HomePageState extends State<HomePage> {
               }
               return NavigationDecision.navigate;
             },
+            gestureRecognizers: Set()
+                ..add(
+                Factory<VerticalDragGestureRecognizer>(
+                () => VerticalDragGestureRecognizer(),
+                ),
+            ),
+            javascriptChannels: Set.from([
+              hapoFunc1(this.webViewController),
+              hapoFunc2(this.webViewController),
+            ]),
           ),
           bottomNavigationBar: BottomNavigationBar(
               onTap: onTabTapped,
@@ -140,16 +153,16 @@ class _HomePageState extends State<HomePage> {
               type: BottomNavigationBarType.fixed,
               items: [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.home), title: Text('Main')),
+                    icon: Icon(Icons.home), title: Text(Texts.tab1)),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.assignment_late), title: Text('Notice')),
+                    icon: Icon(Icons.assignment_late), title: Text(Texts.tab2)),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.calendar_today), title: Text('Book')),
+                    icon: Icon(Icons.calendar_today), title: Text(Texts.tab3)),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.developer_board), title: Text('Board')),
+                    icon: Icon(Icons.developer_board), title: Text(Texts.tab4)),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.help_outline),
-                  title: Text('Inquery'),
+                  title: Text(Texts.tab5),
                 ),
               ]),
         ));
@@ -163,12 +176,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   void choiceAction(String choice) {
+    Map userHeader = {"Content-type": "application/json", "Accept": "application/json"};
     if (choice == Actions.Settings) {
       this.webViewController.loadUrl('https://www.daum.net');
     } else if (choice == Actions.Subscribe) {
       this.webViewController.loadUrl('https://www.android.com');
     }
   }
+
+  JavascriptChannel hapoFunc1(WebViewController wvc){
+    return JavascriptChannel(
+      name: 'hapoFunc1',
+      onMessageReceived: (JavascriptMessage message){
+        print(message.message);
+        wvc.evaluateJavascript("javascript:goHapo();");
+      }
+    );
+  }
+
+  JavascriptChannel hapoFunc2(WebViewController wvc){
+    return JavascriptChannel(
+      name: 'hapoFunc2',
+      onMessageReceived: (JavascriptMessage message){
+        print(message.message);
+      }
+    );
+  }
+
 }
 
 class NavigationControls extends StatelessWidget {
