@@ -176,9 +176,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   void choiceAction(String choice) {
-    Map userHeader = {"Content-type": "application/json", "Accept": "application/json"};
+    final Map<String, String> headers = <String, String>{
+      'CACHE-CONTROL': 'ABC'
+    };
+
     if (choice == Actions.Settings) {
-      this.webViewController.loadUrl('https://www.daum.net');
+      this.webViewController.loadUrl('https://www.daum.net',headers: headers);
     } else if (choice == Actions.Subscribe) {
       this.webViewController.loadUrl('https://www.android.com');
     }
