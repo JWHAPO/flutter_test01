@@ -37,7 +37,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Completer<WebViewController> _controller = Completer<WebViewController>();
+  Completer<WebViewController> _controller = Completer<WebViewController> ();
   WebViewController webViewController;
   int _currentIndex = 0;
 
