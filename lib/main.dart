@@ -8,6 +8,7 @@ import 'data/Actions.dart';
 import 'data/Urls.dart';
 import 'splash_screen.dart';
 import 'data/Texts.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(MyApp());
 
@@ -42,6 +43,22 @@ class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
   final FirebaseMessaging _messaging = FirebaseMessaging();
+  static const platform = const MethodChannel('flutter.native/helper');
+
+  Future<void> responseFromNativeCode() async {
+    String response = '';
+    try{
+      final String result = await platform.invokeMethod('helloFromNativeCode');
+      response = result;
+    } on PlatformException catch (e) {
+      response = "Failed to Invoke: '${e.message}'.";
+    }
+
+    setState(() {
+      print(response);
+    });
+
+  }
 
   @override
   void initState() {
@@ -76,11 +93,6 @@ class _HomePageState extends State<HomePage> {
         print('onLaunch:$url');
       },
     );
-  }
-
-
-  launchUrl() {
-    this.webViewController.loadUrl(Urls.urls[_currentIndex]);
   }
 
   Future<bool> _onBackPressed() {
@@ -171,7 +183,7 @@ class _HomePageState extends State<HomePage> {
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
-      launchUrl();
+      this.webViewController.loadUrl(Urls.urls[_currentIndex]);
     });
   }
 
