@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>TESTTEST</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript">
+<!--//
+function goTest()
+{
+	var x = document.getElementById("edit1");
+    document.getElementById("result1").value = x.value;
+	try{
+		hapoFunc1.postMessage(x.value);
+	}catch(err){}
+}
+
+function goHapo(){
+	var y = 'hello Application';
+  document.getElementById("result1").value = y;
+}
+
+
+//-->
+</script>
+
+</head>
+<body style="MARGIN: 0px" marginheight="0" marginwidth="0">
+	<h1> HELLO WORK</h1>
+  <input id="edit1" type="text" >
+  <input id="test" type="button" value="TEST" onclick="javascript:goTest();">
+  <input id="result1" type="text" readonly="true">
+</body>
