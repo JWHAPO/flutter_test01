@@ -226,6 +226,8 @@ class NavigationControls extends StatelessWidget {
   const NavigationControls(this._webViewcontrollerFuture)
       : assert(_webViewcontrollerFuture != null);
 
+
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<WebViewController>(
@@ -254,6 +256,8 @@ class NavigationControls extends StatelessWidget {
       },
     );
   }
+
+
 
   navigate(BuildContext context, WebViewController controller,
       {bool goBack: false}) async {

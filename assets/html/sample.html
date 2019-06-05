@@ -1,16 +1,25 @@
-<html>
+﻿<html>
 <head>
 <title>TESTTEST</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript">
-
+<!--//
 function goTest()
 {
 	var x = document.getElementById("edit1");
     document.getElementById("result1").value = x.value;
-	try{
-		hapoFunc1.postMessage(x.value);
-	}catch(err){}
+
+	try{//for android 
+    LavalseApp.hapoFunc1('Let It Go.');
+	}catch(err){
+	    console.log(">> [hapoFunc1()] " + err);
+	}
+	try{//for flutter
+    hapoFunc1.postMessage(x.value);
+	}catch(err){
+	    console.log(">> [hapoFunc1()] " + err);
+	}
+
 }
 
 function goHapo(){
@@ -19,7 +28,7 @@ function goHapo(){
 }
 
 
-
+//-->
 </script>
 
 </head>
