@@ -6,8 +6,8 @@
 <!--//
 function goSend()
 {
-	var textId = document.getElementById("text_id").value;
-	var cookieId = document.getElementById("text_cookie").value;
+	var textId = document.getElementById("text_id").value; // ID Input box value
+	var cookieId = document.getElementById("text_cookie").value;// COOKIE Input box value
     
     var result = "id:"+textId+", cookie:"+cookieId;
     
@@ -18,15 +18,16 @@ function goSend()
     document.getElementById("text_result").innerHTML = jsonData;
     // for flutter
 	try{
-		sendFirebaseTokenToWeb.postMessage(jsonData);
+		sendFirebaseTokenToWeb.postMessage(jsonData); // 위에서 만든 json을 APP으로 넘겨줌
 	}catch(err){}
     //for Android
 	try{
-		LavalseApp.sendFirebaseTokenToWeb(jsonData);
+		LavalseApp.sendFirebaseTokenToWeb(jsonData); // 위에서 만든 json을 APP으로 넘겨줌
 	}catch(err){}
     
 }
 
+// APP에서 실행될 메소드 파라메터로 json 을 받음. id, cookie, token 
 function saveFirebaseTokenInUser(jsonData){
 	var data = JSON.parse(jsonData); // JSON 형식의 문자열을 자바스크립트 객체로 변환함.
 
@@ -45,7 +46,7 @@ function saveFirebaseTokenInUser(jsonData){
 
 </head>
 <body style="MARGIN: 0px" marginheight="0" marginwidth="0">
-	<h1> HELLO WORK</h1>
+	<h1> HELLO ALL</h1>
     <p> id <input id="text_id" type="text" value="default_id" /></p>
     <p> cookie <input id="text_cookie" type="text" value="default_cookie" /></p>
     <input id="btn_send" type="button" value="SEND" onclick="javascript:goSend();"/>
