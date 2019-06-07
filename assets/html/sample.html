@@ -4,27 +4,39 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript">
 <!--//
-function goTest()
+function goSend()
 {
-	var x = document.getElementById("edit1");
-    document.getElementById("result1").value = x.value;
+	var textId = document.getElementById("text_id").value;
+	var cookieId = document.getElementById("text_cookie").value;
+    
+    var result = "id:"+textId+", cookie:"+cookieId;
+    
+    var data = {id: textId, cookie: cookieId}; // 자바스크립트 객체
 
-	try{//for android 
-    LavalseApp.hapoFunc1('Let It Go.');
-	}catch(err){
-	    console.log(">> [hapoFunc1()] " + err);
-	}
-	try{//for flutter
-    hapoFunc1.postMessage(x.value);
-	}catch(err){
-	    console.log(">> [hapoFunc1()] " + err);
-	}
-
+    var jsonData = JSON.stringify(data);// 자바스크립트 객체를 문자열로 변환함.
+    
+    document.getElementById("text_result").innerHTML = jsonData;
+    // for flutter
+	try{
+		sendFirebaseTokenToWeb.postMessage(jsonData);
+	}catch(err){}
+    //for Android
+	try{
+		LavalseApp.sendFirebaseTokenToWeb(jsonData);
+	}catch(err){}
+    
 }
 
-function goHapo(){
-	var y = 'hello Application';
-  document.getElementById("result1").value = y;
+function saveFirebaseTokenInUser(jsonData){
+	var data = JSON.parse(jsonData); // JSON 형식의 문자열을 자바스크립트 객체로 변환함.
+
+    document.getElementById("text_receive").innerHTML = data + "<br>";
+    document.getElementById("text_receive").innerHTML += "id:" + "<br>";
+    document.getElementById("text_receive").innerHTML += data.id+ "<br>";
+    document.getElementById("text_receive").innerHTML += "cookie:" + "<br>";
+    document.getElementById("text_receive").innerHTML += data.cookie+ "<br>";
+    document.getElementById("text_receive").innerHTML += "token:" + "<br>";
+    document.getElementById("text_receive").innerHTML += data.token+ "<br>";
 }
 
 
@@ -34,7 +46,14 @@ function goHapo(){
 </head>
 <body style="MARGIN: 0px" marginheight="0" marginwidth="0">
 	<h1> HELLO WORK</h1>
-  <input id="edit1" type="text" >
-  <input id="test" type="button" value="TEST" onclick="javascript:goTest();">
-  <input id="result1" type="text" readonly="true">
+    <p> id <input id="text_id" type="text" value="default_id" /></p>
+    <p> cookie <input id="text_cookie" type="text" value="default_cookie" /></p>
+    <input id="btn_send" type="button" value="SEND" onclick="javascript:goSend();"/>
+    <br />
+    <br />
+    <p> send result </p>
+    <p id="text_result" ></p>
+    <br />
+    <p> receive result </p>
+    <p id="text_receive" ></p>
 </body>
