@@ -155,8 +155,7 @@ class _HomePageState extends State<HomePage> {
                 ),
             ),
             javascriptChannels: Set.from([
-              hapoFunc1(this.webViewController),
-              hapoFunc2(this.webViewController),
+              sendFirebaseTokenToWeb(this.webViewController)
             ]),
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -199,21 +198,12 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  JavascriptChannel hapoFunc1(WebViewController wvc){
+  JavascriptChannel sendFirebaseTokenToWeb(WebViewController wvc){
     return JavascriptChannel(
-      name: 'hapoFunc1',
+      name: 'sendFirebaseTokenToWeb',
       onMessageReceived: (JavascriptMessage message){
         print(message.message);
-        wvc.evaluateJavascript("javascript:goHapo();");
-      }
-    );
-  }
-
-  JavascriptChannel hapoFunc2(WebViewController wvc){
-    return JavascriptChannel(
-      name: 'hapoFunc2',
-      onMessageReceived: (JavascriptMessage message){
-        print(message.message);
+        wvc.evaluateJavascript("javascript:saveFirebaseTokenInUser();");
       }
     );
   }
