@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ import 'data/Urls.dart';
 import 'splash_screen.dart';
 import 'data/Texts.dart';
 import 'package:flutter/services.dart';
+import 'data/LoginUser.dart';
+import 'common/MySharedPreferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -39,8 +42,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Completer<WebViewController> _controller = Completer<WebViewController> ();
+  MySharedPreferences prefs = MySharedPreferences();
   WebViewController webViewController;
   int _currentIndex = 0;
+  String firebaseToken = "";
 
   final FirebaseMessaging _messaging = FirebaseMessaging();
   static const platform = const MethodChannel('flutter.native/helper');
@@ -73,8 +78,10 @@ class _HomePageState extends State<HomePage> {
     });
 
     //PlatformException 발생 시 flutter clean 하고 flutter packages get 한번 돌려봐라
-    _messaging.getToken().then((token) {
+    _messaging.getToken().then((token) async{
       print('firebase token:' + token);
+      prefs.setFirebaseToken(token);
+      firebaseToken =await prefs.getFirebaseToken();
     });
 
     _messaging.configure(
@@ -155,7 +162,8 @@ class _HomePageState extends State<HomePage> {
                 ),
             ),
             javascriptChannels: Set.from([
-              sendFirebaseTokenToWeb(this.webViewController)
+              sendFirebaseTokenToWeb(this.webViewController),
+              loadUrlOnNewView(this.webViewController),
             ]),
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -201,6 +209,30 @@ class _HomePageState extends State<HomePage> {
   JavascriptChannel sendFirebaseTokenToWeb(WebViewController wvc){
     return JavascriptChannel(
       name: 'sendFirebaseTokenToWeb',
+      onMessageReceived: (JavascriptMessage message){ // userId, cookie
+        Map loginUserMap = jsonDecode(message.message);
+        var loginUser = new LoginUser.fromJson(loginUserMap);
+
+        print(message.message);
+
+        print('LoginUser - id :, ${loginUser.id}');
+        print('LoginUser - token :, ${loginUser.token}');
+        print('LoginUser - cookie :, ${loginUser.cookie}');
+
+        loginUser.token = firebaseToken;
+
+        String json = jsonEncode(loginUser);
+        String sendJavascript = "javascript:saveFirebaseTokenInUser('$json');";
+        print(sendJavascript);
+        
+        wvc.evaluateJavascript(sendJavascript); // userId, token
+      }
+    );
+  }
+
+  JavascriptChannel loadUrlOnNewView(WebViewController wvc){
+    return JavascriptChannel(
+      name: 'loadUrlOnNewView',
       onMessageReceived: (JavascriptMessage message){
         print(message.message);
         wvc.evaluateJavascript("javascript:saveFirebaseTokenInUser();");
