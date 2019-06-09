@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
     _messaging.getToken().then((token) async{
       print('firebase token:' + token);
       prefs.setFirebaseToken(token);
-      firebaseToken =await prefs.getFirebaseToken();
+      firebaseToken = await prefs.getFirebaseToken();
     });
 
     _messaging.configure(
@@ -194,9 +194,9 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void choiceAction(String choice) {
+  void choiceAction(String choice) async {
     final Map<String, String> headers = <String, String>{
-      'CACHE-CONTROL': 'ABC'
+      'cookie': await prefs.getCookie()
     };
 
     if (choice == Actions.Settings) {
@@ -218,6 +218,8 @@ class _HomePageState extends State<HomePage> {
         print('LoginUser - id :, ${loginUser.id}');
         print('LoginUser - token :, ${loginUser.token}');
         print('LoginUser - cookie :, ${loginUser.cookie}');
+
+        prefs.setCookie(loginUser.cookie);
 
         loginUser.token = firebaseToken;
 
