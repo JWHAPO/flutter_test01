@@ -127,20 +127,7 @@ class _HomePageState extends State<HomePage> {
         child: new Scaffold(
           appBar: AppBar(
             title: Text(widget.title),
-            actions: <Widget>[
-              NavigationControls(_controller.future),
-              PopupMenuButton<String>(
-                onSelected: choiceAction,
-                itemBuilder: (BuildContext context) {
-                  return Actions.choices.map((String choice) {
-                    return PopupMenuItem<String>(
-                      child: Text(choice),
-                      value: choice,
-                    );
-                  }).toList();
-                },
-              )
-            ],
+            leading: NavigationControls(_controller.future),
           ),
           body: WebView(
             initialUrl: Urls.urls[_currentIndex],
@@ -188,7 +175,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onTabTapped(int index) {
-    setState(() {
+    setState(() { 
       _currentIndex = index;
       this.webViewController.loadUrl(Urls.urls[_currentIndex]);
     });
@@ -269,12 +256,6 @@ class NavigationControls extends StatelessWidget {
                   ? null
                   : () => navigate(context, controller, goBack: true),
             ),
-            IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
-              onPressed: !webViewReady
-                  ? null
-                  : () => navigate(context, controller, goBack: false),
-            )
           ],
         );
       },
