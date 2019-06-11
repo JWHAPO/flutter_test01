@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
   WebViewController webViewController;
   int _currentIndex = 0;
   String firebaseToken = "";
+  bool visibilityBackButton = false;
 
   final FirebaseMessaging _messaging = FirebaseMessaging();
   static const platform = const MethodChannel('flutter.native/helper');
@@ -63,6 +64,18 @@ class _HomePageState extends State<HomePage> {
       print(response);
     });
 
+  }
+
+  
+  void _changedVisibility(bool visibility, String field){
+    setState(() {
+      if(field == "backButton"){
+        visibilityBackButton = visibility;
+      } 
+    });
+  }
+  void _hideBackButton(String tag) async {
+    await this.webViewController.canGoBack() ? _changedVisibility(true, tag) : _changedVisibility(false, tag);
   }
 
   @override
@@ -103,6 +116,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<bool> _onBackPressed() {
+    // NavigationControls(_controller.future).navigate(context, this.webViewController, goBack: true);
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
@@ -127,7 +141,7 @@ class _HomePageState extends State<HomePage> {
         child: new Scaffold(
           appBar: AppBar(
             title: Text(widget.title),
-            leading: NavigationControls(_controller.future),
+            leading: visibilityBackButton ? NavigationControls(_controller.future) : null,
           ),
           body: WebView(
             initialUrl: Urls.urls[_currentIndex],
@@ -141,6 +155,9 @@ class _HomePageState extends State<HomePage> {
                 return NavigationDecision.prevent;
               }
               return NavigationDecision.navigate;
+            },
+            onPageFinished: (String url) {
+              _hideBackButton('backButton');
             },
             gestureRecognizers: Set()
                 ..add(
@@ -228,7 +245,6 @@ class _HomePageState extends State<HomePage> {
       }
     );
   }
-
 }
 
 class NavigationControls extends StatelessWidget {
@@ -236,8 +252,6 @@ class NavigationControls extends StatelessWidget {
 
   const NavigationControls(this._webViewcontrollerFuture)
       : assert(_webViewcontrollerFuture != null);
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -261,8 +275,6 @@ class NavigationControls extends StatelessWidget {
       },
     );
   }
-
-
 
   navigate(BuildContext context, WebViewController controller,
       {bool goBack: false}) async {
