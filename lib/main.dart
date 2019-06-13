@@ -187,7 +187,35 @@ class _HomePageState extends State<HomePage> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.calendar_today), title: Text(Texts.tab3)),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.developer_board), title: Text(Texts.tab4)),
+                    icon: Stack(
+                      children: <Widget>[
+                        Icon(Icons.developer_board),
+                        Positioned(
+                          right: 0,
+                          child: Container(
+                            padding: EdgeInsets.all(1),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            constraints: BoxConstraints(
+                              minWidth: 14,
+                              minHeight: 14
+                            ),
+                            child: Text(
+                              '6',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    title: Text(Texts.tab4)
+                ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.help_outline),
                   title: Text(Texts.tab5),
