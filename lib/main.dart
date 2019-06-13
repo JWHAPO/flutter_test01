@@ -12,6 +12,7 @@ import 'data/Texts.dart';
 import 'package:flutter/services.dart';
 import 'data/LoginUser.dart';
 import 'common/MySharedPreferences.dart';
+import 'model/Message.dart';
 
 void main() => runApp(MyApp());
 
@@ -49,6 +50,7 @@ class _HomePageState extends State<HomePage> {
   bool visibilityBackButton = false;
 
   final FirebaseMessaging _messaging = FirebaseMessaging();
+  final List<Message> messages = [];
   static const platform = const MethodChannel('flutter.native/helper');
 
   Future<void> responseFromNativeCode() async {
@@ -99,21 +101,22 @@ class _HomePageState extends State<HomePage> {
 
     _messaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print('onResume $message');
-        setState(() {});
+        print('onMessage $message');
       },
       onResume: (Map<String, dynamic> message) async {
         final notification = message['data'];
-        final url = notification['url'];
+        final url = notification['url1'];
         print('onResume:$url');
       },
       onLaunch: (Map<String, dynamic> message) async {
         final notification = message['data'];
-        final url = notification['url'];
+        final url = notification['url1'];
         print('onLaunch:$url');
       },
     );
   }
+
+  
 
   Future<bool> _onBackPressed() {
     // NavigationControls(_controller.future).navigate(context, this.webViewController, goBack: true);
@@ -173,7 +176,9 @@ class _HomePageState extends State<HomePage> {
           bottomNavigationBar: BottomNavigationBar(
               onTap: onTabTapped,
               currentIndex: _currentIndex,
-              type: BottomNavigationBarType.fixed,
+              type: BottomNavigationBarType.shifting,
+              fixedColor: Colors.lightBlue,
+              unselectedItemColor: Colors.lightBlue,
               items: [
                 BottomNavigationBarItem(
                     icon: Icon(Icons.home), title: Text(Texts.tab1)),
