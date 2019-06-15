@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
   MySharedPreferences prefs = MySharedPreferences();
   WebViewController webViewController;
   int _currentIndex = 0;
+  int _badgeCount = 0;
   String firebaseToken = "";
   bool visibilityBackButton = false;
 
@@ -80,10 +81,16 @@ class _HomePageState extends State<HomePage> {
     await this.webViewController.canGoBack() ? _changedVisibility(true, tag) : _changedVisibility(false, tag);
   }
 
+  void _getDefaultPrefsValues() async {
+    _badgeCount = await prefs.getBadgeCountForEvent();
+  }
+
   @override
   void initState() {
     super.initState();
-
+    
+    _getDefaultPrefsValues();
+    
     //권한을 설정
     _messaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
@@ -101,7 +108,14 @@ class _HomePageState extends State<HomePage> {
 
     _messaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print('onMessage $message');
+
+        _badgeCount += 1;
+        prefs.setBadgeCountForEvent(_badgeCount);
+        
+
+        final notification = message['data'];
+        final url = notification['url1'];
+        print('onMessage $url');
       },
       onResume: (Map<String, dynamic> message) async {
         final notification = message['data'];
@@ -115,8 +129,6 @@ class _HomePageState extends State<HomePage> {
       },
     );
   }
-
-  
 
   Future<bool> _onBackPressed() {
     // NavigationControls(_controller.future).navigate(context, this.webViewController, goBack: true);
@@ -203,7 +215,7 @@ class _HomePageState extends State<HomePage> {
                               minHeight: 14
                             ),
                             child: Text(
-                              '6',
+                              '$_badgeCount',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 10,

@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MySharedPreferences{
   final String _keyFirebaseToken = "firebaseToken";
   final String _keyCookie = "cookie";
+  final String _keyBadgeCountForEvent = "badgeCountForEvent";
 
   // Firebase Token get Value
   Future<String> getFirebaseToken() async {
@@ -27,5 +28,17 @@ class MySharedPreferences{
   Future<bool> setCookie(String cookie) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setString(_keyCookie, cookie);
+  }
+
+  // adgeCountForEvent get Value
+  Future<int> getBadgeCountForEvent() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(_keyBadgeCountForEvent) ?? 0;
+  }
+
+  // adgeCountForEvent set Value
+  Future<bool> setBadgeCountForEvent(int badgeCountForEvent) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setInt(_keyBadgeCountForEvent, badgeCountForEvent);
   }
 }
