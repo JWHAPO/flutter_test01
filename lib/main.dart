@@ -81,16 +81,16 @@ class _HomePageState extends State<HomePage> {
     await this.webViewController.canGoBack() ? _changedVisibility(true, tag) : _changedVisibility(false, tag);
   }
 
-  void _getDefaultPrefsValues() async {
-    _badgeCount = await prefs.getBadgeCountForEvent();
-  }
-
   @override
   void initState() {
     super.initState();
     
-    _getDefaultPrefsValues();
+
+    prefs.getBadgeCountForEvent().then( (badgeCount) async{
+      _badgeCount = badgeCount;
+    } );
     
+
     //권한을 설정
     _messaging.requestNotificationPermissions(
         const IosNotificationSettings(sound: true, badge: true, alert: true));
@@ -110,8 +110,12 @@ class _HomePageState extends State<HomePage> {
       onMessage: (Map<String, dynamic> message) async {
 
         _badgeCount += 1;
-        prefs.setBadgeCountForEvent(_badgeCount);
         
+        setState(() {
+          prefs.setBadgeCountForEvent(_badgeCount);
+        });
+
+        print(message);
 
         final notification = message['data'];
         final url = notification['url1'];
