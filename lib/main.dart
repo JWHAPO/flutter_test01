@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
   int _badgeCount = 0;
   String firebaseToken = "";
   bool visibilityBackButton = false;
+  bool visibilityBadgeButton = false;
 
   final FirebaseMessaging _messaging = FirebaseMessaging();
   final List<Message> messages = [];
@@ -72,13 +73,25 @@ class _HomePageState extends State<HomePage> {
   
   void _changedVisibility(bool visibility, String field){
     setState(() {
-      if(field == "backButton"){
-        visibilityBackButton = visibility;
-      } 
+
+      switch (field) {
+        case 'backButton':
+          visibilityBackButton = visibility;
+          break;
+        case 'badgeButton':
+          visibilityBadgeButton = visibility;
+          break;
+        default:
+      }
     });
   }
-  void _hideBackButton(String tag) async {
-    await this.webViewController.canGoBack() ? _changedVisibility(true, tag) : _changedVisibility(false, tag);
+  void _hideBackButton() async {
+    await this.webViewController.canGoBack() ? _changedVisibility(true, 'backButton') : _changedVisibility(false, 'backButton');
+  }
+
+  void _hideBadgeButton() {
+    print('_badgeCount$_badgeCount');
+    _badgeCount>0 ? _changedVisibility(true, 'badgeButton') : _changedVisibility(false, 'badgeButton');
   }
 
   @override
@@ -88,6 +101,7 @@ class _HomePageState extends State<HomePage> {
 
     prefs.getBadgeCountForEvent().then( (badgeCount) async{
       _badgeCount = badgeCount;
+      _hideBadgeButton();
     } );
     
 
@@ -113,6 +127,7 @@ class _HomePageState extends State<HomePage> {
         
         setState(() {
           prefs.setBadgeCountForEvent(_badgeCount);
+          _hideBadgeButton();
         });
 
         print(message);
@@ -176,7 +191,7 @@ class _HomePageState extends State<HomePage> {
               return NavigationDecision.navigate;
             },
             onPageFinished: (String url) {
-              _hideBackButton('backButton');
+              _hideBackButton();
             },
             gestureRecognizers: Set()
                 ..add(
@@ -208,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                         Icon(Icons.developer_board),
                         Positioned(
                           right: 0,
-                          child: Container(
+                          child: visibilityBadgeButton ? Container(
                             padding: EdgeInsets.all(1),
                             decoration: BoxDecoration(
                               color: Colors.red,
@@ -226,7 +241,7 @@ class _HomePageState extends State<HomePage> {
                               ),
                               textAlign: TextAlign.center,
                             ),
-                          ),
+                          ) : Container(),
                         )
                       ],
                     ),
@@ -244,6 +259,12 @@ class _HomePageState extends State<HomePage> {
     setState(() { 
       _currentIndex = index;
       this.webViewController.loadUrl(Urls.urls[_currentIndex]);
+
+      if(_currentIndex==3){
+        _badgeCount = 0;
+        prefs.setBadgeCountForEvent(_badgeCount);
+        _hideBadgeButton();
+      }
     });
   }
 
