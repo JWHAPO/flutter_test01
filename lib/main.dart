@@ -110,7 +110,6 @@ class _HomePageState extends State<HomePage> {
         const IosNotificationSettings(sound: true, badge: true, alert: true));
     _messaging.onIosSettingsRegistered
         .listen((IosNotificationSettings settings) {
-      print('Setting s registered: $settings');
     });
 
     //PlatformException 발생 시 flutter clean 하고 flutter packages get 한번 돌려봐라
@@ -129,8 +128,6 @@ class _HomePageState extends State<HomePage> {
           prefs.setBadgeCountForEvent(_badgeCount);
           _hideBadgeButton();
         });
-
-        print(message);
 
         final notification = message['data'];
         final url = notification['url1'];
@@ -289,17 +286,12 @@ class _HomePageState extends State<HomePage> {
 
         print(message.message);
 
-        print('LoginUser - id :, ${loginUser.id}');
-        print('LoginUser - token :, ${loginUser.token}');
-        print('LoginUser - cookie :, ${loginUser.cookie}');
-
         prefs.setCookie(loginUser.cookie);
 
         loginUser.token = firebaseToken;
 
         String json = jsonEncode(loginUser);
         String sendJavascript = "javascript:saveFirebaseTokenInUser('$json');";
-        print(sendJavascript);
         
         wvc.evaluateJavascript(sendJavascript); // userId, token
       }
