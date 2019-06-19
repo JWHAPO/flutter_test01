@@ -15,6 +15,7 @@ import 'data/LoginUser.dart';
 import 'common/MySharedPreferences.dart';
 import 'model/Message.dart';
 import 'package:device_info/device_info.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,6 +31,18 @@ class MyApp extends StatelessWidget {
       home: SplashScreen(), // 앱이 실행되면 로딩화면을 맨 처음으로 띄운다.
       debugShowCheckedModeBanner: false,
       routes: routes,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        const Locale('ko','KR'),
+        const Locale('en','US'),
+        const Locale('ja','JA'),
+        const Locale('ru','RU'),
+        const Locale('zh','CN'),
+        const Locale('zh','HK'),
+      ],
     );
   }
 }
@@ -50,6 +63,7 @@ class _HomePageState extends State<HomePage> {
   static final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
   Map<String, dynamic> _deviceData = <String, dynamic>{};
   String _devicePlatform = "";
+  List<String> urls;
   
   int _currentIndex = 0;
   int _badgeCount = 0;
@@ -103,6 +117,24 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+    Future.delayed(Duration.zero, (){
+      Locale myLocale = Localizations.localeOf(context);
+
+      print('Locale:${myLocale.countryCode}, ${myLocale.languageCode}');
+      
+      switch (myLocale.languageCode) {
+        case 'ko':
+          urls = Urls.urls_ko;
+          break;
+        case 'en':
+          urls = Urls.urls_en;
+          break;
+        default:
+          urls = Urls.urls_ko;
+      }
+
+    });
     
     if(Platform.isAndroid){
       _devicePlatform = "android";
@@ -141,7 +173,7 @@ class _HomePageState extends State<HomePage> {
           prefs.setBadgeCountForEvent(_badgeCount);
           _hideBadgeButton();
         });
-
+        print(message);
         final notification = message['data'];
         final url = notification['url1'];
         print('onMessage $url');
@@ -252,7 +284,7 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
             leading: visibilityBackButton ? NavigationControls(_controller.future) : null,
           ),
           body: WebView(
-            initialUrl: Urls.urls[_currentIndex],
+            initialUrl: urls[_currentIndex],
             onWebViewCreated: (WebViewController webViewController) {
               this.webViewController = webViewController;
               _controller.complete(webViewController);
@@ -332,7 +364,7 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
   void onTabTapped(int index) {
     setState(() { 
       _currentIndex = index;
-      this.webViewController.loadUrl(Urls.urls[_currentIndex]);
+      this.webViewController.loadUrl(urls[_currentIndex]);
 
       if(_currentIndex==3){
         _badgeCount = 0;

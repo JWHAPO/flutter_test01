@@ -19,6 +19,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   webview_flutter: ^0.3.7+1
   url_launcher: ^5.0.3
   firebase_core: ^0.2.5
