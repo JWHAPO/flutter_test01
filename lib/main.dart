@@ -278,11 +278,12 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: _onBackPressed,
-        child: new Scaffold(
-          appBar: AppBar(
-            title: Text(widget.title),
-            leading: visibilityBackButton ? NavigationControls(_controller.future) : null,
-          ),
+        child: SafeArea(
+          child: Scaffold(
+          // appBar: AppBar(
+          //   title: Text(widget.title),
+          //   leading: visibilityBackButton ? NavigationControls(_controller.future) : null,
+          // ),
           body: WebView(
             initialUrl: urls[_currentIndex],
             onWebViewCreated: (WebViewController webViewController) {
@@ -358,6 +359,7 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
                   title: Text(Texts.tab5),
                 ),
               ]),
+        ),
         ));
   }
 
