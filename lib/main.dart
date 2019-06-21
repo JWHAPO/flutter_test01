@@ -16,6 +16,7 @@ import 'common/MySharedPreferences.dart';
 import 'model/Message.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 void main() => runApp(MyApp());
 
@@ -120,6 +121,8 @@ class _HomePageState extends State<HomePage> {
 
     Future.delayed(Duration.zero, (){
       Locale myLocale = Localizations.localeOf(context);
+
+      FlutterStatusbarcolor.setStatusBarColor(Colors.brown);
 
       print('Locale:${myLocale.countryCode}, ${myLocale.languageCode}');
       
@@ -278,9 +281,12 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: _onBackPressed,
-        child: SafeArea( 
-          child:
-          new Scaffold(
+        child: SafeArea(
+          child: Scaffold(
+          // appBar: AppBar(
+          //   title: Text(widget.title),
+          //   leading: visibilityBackButton ? NavigationControls(_controller.future) : null,
+          // ),
           body: WebView(
             initialUrl: urls[_currentIndex],
             onWebViewCreated: (WebViewController webViewController) {
@@ -356,7 +362,8 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
                   title: Text(Texts.tab5),
                 ),
               ]),
-        )));
+        ),
+        ));
   }
 
   void onTabTapped(int index) {
