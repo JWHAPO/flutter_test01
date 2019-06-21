@@ -16,6 +16,7 @@ import 'common/MySharedPreferences.dart';
 import 'model/Message.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 
 void main() => runApp(MyApp());
 
@@ -120,6 +121,8 @@ class _HomePageState extends State<HomePage> {
 
     Future.delayed(Duration.zero, (){
       Locale myLocale = Localizations.localeOf(context);
+
+      FlutterStatusbarcolor.setStatusBarColor(Colors.brown);
 
       print('Locale:${myLocale.countryCode}, ${myLocale.languageCode}');
       
