@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
     Future.delayed(Duration.zero, (){
       Locale myLocale = Localizations.localeOf(context);
 
-      FlutterStatusbarcolor.setStatusBarColor(Colors.brown);
+      FlutterStatusbarcolor.setStatusBarColor(Colors.lightBlue);
 
       print('Locale:${myLocale.countryCode}, ${myLocale.languageCode}');
       
@@ -300,7 +300,10 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
               }
               return NavigationDecision.navigate;
             },
-            onPageFinished: (String url) {
+            onPageFinished: (String url) async {
+
+              final cookieString = await this.webViewController.evaluateJavascript("document.cookie");
+              print('cookie:$cookieString');
               _hideBackButton();
             },
             gestureRecognizers: Set()
