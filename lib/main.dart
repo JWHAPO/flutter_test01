@@ -282,6 +282,7 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
     return WillPopScope(
         onWillPop: _onBackPressed,
         child: SafeArea(
+          bottom: false,
           child: Scaffold(
           // appBar: AppBar(
           //   title: Text(widget.title),
