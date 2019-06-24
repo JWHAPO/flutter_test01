@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         const Locale('ja','JA'),
         const Locale('ru','RU'),
         const Locale('zh','CN'),
-        const Locale('zh','HK'),
+        const Locale.fromSubtags(languageCode: 'zh', countryCode: 'HK')
       ],
     );
   }
