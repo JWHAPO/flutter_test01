@@ -22,9 +22,7 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 void main() => runApp(MyApp());
 
 var routes = <String, WidgetBuilder>{
-  '/main':(BuildContext context) => HomePage(Texts.app_bar_title),
-  '/extraWebView':(BuildContext context) => ExtraWebView()
-
+  '/main':(BuildContext context) => HomePage(Texts.app_bar_title)
 };
 
 /// This Widget is the main application widget.
@@ -189,8 +187,13 @@ class _HomePageState extends State<HomePage> {
         final url = notification['url1'];
 
         if(url!=''){
-          Navigator.pushNamed(context, '/extraWebView');
-        }
+          Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ExtraWebView(url: url),
+          ),
+        );
+      }
 
         print('onResume:$url');
       },
