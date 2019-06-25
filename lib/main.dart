@@ -9,6 +9,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'data/Actions.dart';
 import 'data/Urls.dart';
 import 'splash_screen.dart';
+import 'extra_webview.dart';
 import 'data/Texts.dart';
 import 'package:flutter/services.dart';
 import 'data/LoginUser.dart';
@@ -21,7 +22,9 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 void main() => runApp(MyApp());
 
 var routes = <String, WidgetBuilder>{
-  '/main':(BuildContext context) => HomePage(Texts.app_bar_title)
+  '/main':(BuildContext context) => HomePage(Texts.app_bar_title),
+  '/extraWebView':(BuildContext context) => ExtraWebView()
+
 };
 
 /// This Widget is the main application widget.
@@ -184,6 +187,11 @@ class _HomePageState extends State<HomePage> {
       onResume: (Map<String, dynamic> message) async {
         final notification = message['data'];
         final url = notification['url1'];
+
+        if(url!=''){
+          Navigator.pushNamed(context, '/extraWebView');
+        }
+
         print('onResume:$url');
       },
       onLaunch: (Map<String, dynamic> message) async {
