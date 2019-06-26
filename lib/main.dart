@@ -60,8 +60,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Completer<WebViewController> _controller = Completer<WebViewController> ();
-  MySharedPreferences prefs = MySharedPreferences();
   WebViewController webViewController;
+  MySharedPreferences prefs = MySharedPreferences();
   static final DeviceInfoPlugin deviceInfoPlugin = new DeviceInfoPlugin();
   Map<String, dynamic> _deviceData = <String, dynamic>{};
   String _devicePlatform = "";
@@ -179,12 +179,12 @@ class _HomePageState extends State<HomePage> {
         });
         print(message);
         final notification = message['data'];
-        final url = notification['url1'];
+        final url = notification['url'];
         print('onMessage $url');
       },
       onResume: (Map<String, dynamic> message) async {
         final notification = message['data'];
-        final url = notification['url1'];
+        final url = notification['url'];
 
         if(url!=''){
           Navigator.push(
@@ -199,7 +199,17 @@ class _HomePageState extends State<HomePage> {
       },
       onLaunch: (Map<String, dynamic> message) async {
         final notification = message['data'];
-        final url = notification['url1'];
+        final url = notification['url'];
+
+        if(url!=''){
+          Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ExtraWebView(url: url),
+          ),
+        );
+       }
+
         print('onLaunch:$url');
       },
     );
