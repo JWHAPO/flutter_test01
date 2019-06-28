@@ -400,6 +400,13 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
         _badgeCount = 0;
         prefs.setBadgeCountForEvent(_badgeCount);
         _hideBadgeButton();
+      }else if(_currentIndex == 4){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ExtraWebView(url: 'https://www.google.com'),
+          ),
+        );
       }
     });
   }
