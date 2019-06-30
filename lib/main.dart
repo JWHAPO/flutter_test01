@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:hapo_flutter01/login.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'data/Actions.dart';
@@ -400,7 +401,16 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
         _badgeCount = 0;
         prefs.setBadgeCountForEvent(_badgeCount);
         _hideBadgeButton();
-      }else if(_currentIndex == 4){
+        
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Login(),
+          ),
+        );
+
+      }
+      else if(_currentIndex == 4){
         Navigator.push(
           context,
           MaterialPageRoute(
