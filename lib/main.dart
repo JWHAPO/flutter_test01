@@ -177,6 +177,8 @@ class _HomePageState extends State<HomePage> {
         .listen((IosNotificationSettings settings) {
     });
 
+    _messaging.subscribeToTopic('notice_ko');
+
     //PlatformException 발생 시 flutter clean 하고 flutter packages get 한번 돌려봐라
     _messaging.getToken().then((token) async{
       print('firebase token:' + token);
