@@ -19,6 +19,12 @@ import 'model/Message.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+
+const List<String> assetNames = <String>[
+  'assets/icon/home.svg'
+];
 
 void main() => runApp(MyApp());
 
@@ -67,6 +73,7 @@ class _HomePageState extends State<HomePage> {
   Map<String, dynamic> _deviceData = <String, dynamic>{};
   String _devicePlatform = "";
   List<String> urls;
+  final List<Widget> _painters = <Widget>[];
   
   int _currentIndex = 0;
   int _badgeCount = 0;
@@ -120,6 +127,14 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
+
+    //svg파일 to asset
+    for (String assetName in assetNames) {
+      _painters.add(
+        SvgPicture.asset(assetName),
+      );
+    }
 
     Future.delayed(Duration.zero, (){
       Locale myLocale = Localizations.localeOf(context);
@@ -348,7 +363,7 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
               unselectedItemColor: Colors.lightBlue,
               items: [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.home), title: Text(Texts.tab1)),
+                    icon: _painters[0], title: Text(Texts.tab1)),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.assignment_late), title: Text(Texts.tab2)),
                 BottomNavigationBarItem(
