@@ -7,6 +7,9 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
+  var _id = '';
+  var _pw = '';
+
   @override
   void initState() {
     // TODO: implement initState
@@ -25,17 +28,24 @@ class _LoginState extends State<Login> {
               enabled: true,
               maxLength: 20,
               style: TextStyle(color: Colors.black, fontFamily: 'Poppins'),
+              onChanged: (_id) {
+                this._id = _id;
+              },
             ),
             TextField(
               enabled: true,
               maxLength: 20,
               obscureText: true,
               style: TextStyle(color: Colors.black, fontFamily: 'Poppins'),
+              onChanged: (_pw){
+                this._pw = _pw;
+              },
             ),
             RaisedButton(
               child: Text('Login', style: TextStyle(color: Colors.black, fontFamily: 'Poppins'),),
               onPressed: (){
 
+                print('id:$_id , pw:$_pw');
               },
             )
           ],
