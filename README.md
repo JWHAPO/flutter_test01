@@ -1,6 +1,10 @@
 # flutter_test01
 
-A new Flutter application.
+Functions
+- firebase messaging
+- BottomNavigation
+- webview
+
 
 ## Getting Started
 
