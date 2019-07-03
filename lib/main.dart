@@ -428,12 +428,15 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
 
       }
       else if(_currentIndex == 4){
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ExtraWebView(url: 'https://www.google.com'),
-          ),
-        );
+//        Navigator.push(
+//          context,
+//          MaterialPageRoute(
+//            builder: (context) => ExtraWebView(url: 'https://www.google.com'),
+//          ),
+//        );
+
+        _onBottomModalSheetWebView(context);
+
       }
     });
   }
@@ -480,6 +483,24 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
       }
     );
   }
+  void _onBottomModalSheetWebView(BuildContext context){
+    showModalBottomSheet(context: context, builder: (context){
+      return Column(
+        children: <Widget>[
+          RaisedButton(
+              child: Text('1'),
+              onPressed: (){
+            print('1');
+          }),
+          RaisedButton(
+              child: Text('2'),
+              onPressed: (){
+            print('2');
+          })
+        ],
+      );
+    });
+  }
 }
 
 class NavigationControls extends StatelessWidget {
@@ -524,4 +545,5 @@ class NavigationControls extends StatelessWidget {
       );
     }
   }
+
 }

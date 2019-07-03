@@ -34,11 +34,11 @@ class _SplashScreenState extends State<SplashScreen> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('HOTEL',
+              Text('HAPO',
               style: TextStyle(color: Colors.white,
               fontSize: 28.0,
               fontFamily: 'Poppins'),),
-              Text('La Valse',
+              Text('Jun Bomi',
               style: TextStyle(color: Colors.white,
               fontSize: 42.0,
               fontFamily: 'Poppins'),)
