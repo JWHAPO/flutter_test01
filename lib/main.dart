@@ -438,7 +438,15 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
 
         // _onBottomModalSheetWebView(context);
         showModalBottomSheetApp( context: context, builder: (builder) { 
-          return Column(
+          return _viewInBottomModalSheet(context); 
+          }, statusBarHeight: MediaQuery.of(context).padding.top + 40.0, );
+      }
+    });
+  }
+
+
+  Widget _viewInBottomModalSheet(BuildContext context){
+      return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Flexible(
@@ -475,56 +483,7 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
                 ),
               ),
             ],
-          ); 
-          }, statusBarHeight: MediaQuery.of(context).padding.top + 40.0, );
-      }
-    });
-  }
-
-
-  void _onBottomModalSheetWebView(BuildContext context){
-    showModalBottomSheet(context: context, builder: (context){
-      return Container(
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Flexible(
-                  flex: 1,
-                  child: Container(
-                      color: Colors.white30,
-                      padding: EdgeInsets.all(10.0),
-                      alignment: Alignment.centerRight,
-                      child: IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () {
-                          Navigator.pop(context,"1");
-                        },
-                      ))),
-              Flexible(
-                flex: 10,
-                child: WebView(
-                  initialUrl: 'https://www.google.com',
-                  onWebViewCreated: (WebViewController webViewController) {},
-                  javascriptMode: JavascriptMode.unrestricted,
-                  navigationDelegate: (NavigationRequest request) {
-                    if (request.url.startsWith('###')) {
-                      return NavigationDecision.prevent;
-                    }
-                    return NavigationDecision.navigate;
-                  },
-                  onPageFinished: (String url) {},
-                  gestureRecognizers: Set()
-                    ..add(
-                      Factory<VerticalDragGestureRecognizer>(
-                        () => VerticalDragGestureRecognizer(),
-                      ),
-                    ),
-                ),
-              ),
-            ],
-          ),
-      );
-    });
+          );
   }
 
 
