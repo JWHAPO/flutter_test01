@@ -20,6 +20,7 @@ import 'package:device_info/device_info.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'bottom_sheet_fix_status_bar.dart';
 
 
 const List<String> assetNames = <String>[
@@ -435,11 +436,97 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
 //          ),
 //        );
 
-        _onBottomModalSheetWebView(context);
-
+        // _onBottomModalSheetWebView(context);
+        showModalBottomSheetApp( context: context, builder: (builder) { 
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Flexible(
+                  flex: 1,
+                  child: Container(
+                      alignment: Alignment.centerRight,
+                      child: IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: () {
+                            Navigator.pop(context,"1");
+                          },
+                        )
+                    )
+                  ),
+              Flexible(
+                flex: 18,
+                child: WebView(
+                  initialUrl: 'https://www.google.com',
+                  onWebViewCreated: (WebViewController webViewController) {},
+                  javascriptMode: JavascriptMode.unrestricted,
+                  navigationDelegate: (NavigationRequest request) {
+                    if (request.url.startsWith('###')) {
+                      return NavigationDecision.prevent;
+                    }
+                    return NavigationDecision.navigate;
+                  },
+                  onPageFinished: (String url) {},
+                  gestureRecognizers: Set()
+                    ..add(
+                      Factory<VerticalDragGestureRecognizer>(
+                        () => VerticalDragGestureRecognizer(),
+                      ),
+                    ),
+                ),
+              ),
+            ],
+          ); 
+          }, statusBarHeight: MediaQuery.of(context).padding.top + 40.0, );
       }
     });
   }
+
+
+  void _onBottomModalSheetWebView(BuildContext context){
+    showModalBottomSheet(context: context, builder: (context){
+      return Container(
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Flexible(
+                  flex: 1,
+                  child: Container(
+                      color: Colors.white30,
+                      padding: EdgeInsets.all(10.0),
+                      alignment: Alignment.centerRight,
+                      child: IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.pop(context,"1");
+                        },
+                      ))),
+              Flexible(
+                flex: 10,
+                child: WebView(
+                  initialUrl: 'https://www.google.com',
+                  onWebViewCreated: (WebViewController webViewController) {},
+                  javascriptMode: JavascriptMode.unrestricted,
+                  navigationDelegate: (NavigationRequest request) {
+                    if (request.url.startsWith('###')) {
+                      return NavigationDecision.prevent;
+                    }
+                    return NavigationDecision.navigate;
+                  },
+                  onPageFinished: (String url) {},
+                  gestureRecognizers: Set()
+                    ..add(
+                      Factory<VerticalDragGestureRecognizer>(
+                        () => VerticalDragGestureRecognizer(),
+                      ),
+                    ),
+                ),
+              ),
+            ],
+          ),
+      );
+    });
+  }
+
 
   void choiceAction(String choice) async {
     final Map<String, String> headers = <String, String>{
@@ -483,24 +570,7 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
       }
     );
   }
-  void _onBottomModalSheetWebView(BuildContext context){
-    showModalBottomSheet(context: context, builder: (context){
-      return Column(
-        children: <Widget>[
-          RaisedButton(
-              child: Text('1'),
-              onPressed: (){
-            print('1');
-          }),
-          RaisedButton(
-              child: Text('2'),
-              onPressed: (){
-            print('2');
-          })
-        ],
-      );
-    });
-  }
+  
 }
 
 class NavigationControls extends StatelessWidget {
