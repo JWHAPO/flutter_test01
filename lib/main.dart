@@ -453,11 +453,23 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
                   flex: 1,
                   child: Container(
                       alignment: Alignment.centerRight,
-                      child: IconButton(
-                          icon: Icon(Icons.close),
-                          onPressed: () {
-                            Navigator.pop(context,"1");
-                          },
+                      color: Theme.of(context).canvasColor,
+                      child: 
+                        Container(
+                          width: double.infinity,
+                          child: IconButton(
+                            icon: Icon(Icons.menu),
+                            onPressed: () {
+                              // Navigator.pop(context,"1");
+                            },
+                          ),
+                          decoration: BoxDecoration(
+                          color: Theme.of(context).canvasColor,
+                          borderRadius: BorderRadius.only(
+                            topLeft: const Radius.circular(10),
+                            topRight: const Radius.circular(10),
+                          )
+                        )
                         )
                     )
                   ),
