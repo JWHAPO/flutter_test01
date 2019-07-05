@@ -21,7 +21,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'bottom_sheet_fix_status_bar.dart';
-import 'package:simple_permissions/simple_permissions.dart';
 
 
 const List<String> assetNames = <String>[
@@ -76,7 +75,6 @@ class _HomePageState extends State<HomePage> {
   List<String> urls;
   final List<Widget> _painters = <Widget>[];
   String _platformVersion;
-  Permission permission;
   
   int _currentIndex = 0;
   int _badgeCount = 0;
@@ -87,20 +85,6 @@ class _HomePageState extends State<HomePage> {
   final FirebaseMessaging _messaging = FirebaseMessaging();
   final List<Message> messages = [];
   static const platform = const MethodChannel('flutter.native/helper');
-
-  initPlatform() async {
-    String platfrom;
-    try {
-      platfrom = await SimplePermissions.platformVersion;
-    } on PlatformException {
-      platfrom = "platform not found";
-    }
-    if(!mounted) return;
-
-    setState(() {
-      _platformVersion = platfrom;
-    });
-  }
 
   Future<void> responseFromNativeCode() async {
     String response = '';
@@ -185,6 +169,13 @@ class _HomePageState extends State<HomePage> {
       _badgeCount = badgeCount;
       _hideBadgeButton();
     } );
+
+    prefs.getIsAgreeOfPushMessaging().then((isAgree) async {
+      if(!isAgree){
+        _showPushAgreeDialog();
+      }
+    }
+    );
     
 
     //권한을 설정
@@ -248,6 +239,25 @@ class _HomePageState extends State<HomePage> {
         print('onLaunch:$url');
       },
     );
+  }
+
+  void _showPushAgreeDialog() async{
+    showDialog(context: context,
+    builder: (BuildContext context){
+      return AlertDialog(
+        title: Text('Notification subscription'),
+        content: Text('Do you agree to receive the advertising message?'),
+        actions: <Widget>[
+          FlatButton(onPressed: (){
+            Navigator.of(context).pop();
+          }, child: Text(Texts.no)),
+          FlatButton(onPressed: (){
+            prefs.setIsAgreeOfPushMessaging(true);
+            Navigator.of(context).pop();
+          }, child: Text(Texts.yes)),
+        ],
+      );
+    });
   }
 
   Future<Null> initPlatformState() async{

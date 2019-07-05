@@ -1,10 +1,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-class MySharedPreferences{
+class MySharedPreferences {
   final String _keyFirebaseToken = "firebaseToken";
   final String _keyCookie = "cookie";
   final String _keyBadgeCountForEvent = "badgeCountForEvent";
+  final String _keyIsAgreeOfPushMessaging = "isAgreeOfPushMessaging";
 
   // Firebase Token get Value
   Future<String> getFirebaseToken() async {
@@ -40,5 +40,15 @@ class MySharedPreferences{
   Future<bool> setBadgeCountForEvent(int badgeCountForEvent) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.setInt(_keyBadgeCountForEvent, badgeCountForEvent);
+  }
+
+  Future<bool> getIsAgreeOfPushMessaging() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_keyIsAgreeOfPushMessaging) ?? false;
+  }
+
+  Future<bool> setIsAgreeOfPushMessaging(bool isAgreeOfPushMessaging) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setBool(_keyIsAgreeOfPushMessaging, isAgreeOfPushMessaging);
   }
 }
