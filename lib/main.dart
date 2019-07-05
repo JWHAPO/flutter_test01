@@ -21,6 +21,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'bottom_sheet_fix_status_bar.dart';
+import 'package:simple_permissions/simple_permissions.dart';
 
 
 const List<String> assetNames = <String>[
