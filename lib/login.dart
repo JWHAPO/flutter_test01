@@ -47,6 +47,33 @@ class _LoginState extends State<Login> {
 
                 print('id:$_id , pw:$_pw');
               },
+            ),Wrap(
+              spacing: 8.0, // gap between adjacent chips
+              runSpacing: 4.0, // gap between lines
+              children: <Widget>[
+                Container(
+                  child: Chip(
+                    label: Text('Hamilton',style: TextStyle(color: Colors.white),),
+                    backgroundColor: Colors.deepPurpleAccent,
+                    elevation: 4,
+                    shadowColor: Colors.grey[50],
+                    padding: EdgeInsets.all(4),
+                  ),
+                  margin: EdgeInsets.only(left: 12, right: 12,top: 2,bottom: 2),
+                ),
+                Chip(
+                  avatar: CircleAvatar(backgroundColor: Colors.blue.shade900, child: Text('ML')),
+                  label: Text('Lafayette'),
+                ),
+                Chip(
+                  avatar: CircleAvatar(backgroundColor: Colors.blue.shade900, child: Text('HM')),
+                  label: Text('Mulligan'),
+                ),
+                Chip(
+                  avatar: CircleAvatar(backgroundColor: Colors.blue.shade900, child: Text('JL')),
+                  label: Text('Laurens'),
+                ),
+              ],
             )
           ],
         ),
