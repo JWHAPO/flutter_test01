@@ -74,6 +74,14 @@ class _LoginState extends State<Login> {
                   label: Text('Laurens'),
                 ),
               ],
+            ),ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: Align(
+                alignment: Alignment.center,
+                heightFactor: 0.5,
+                widthFactor: 0.5,
+                child: Image.asset('assets/image/potato.jpg',alignment: Alignment.center,fit: BoxFit.contain,),
+              ),
             )
           ],
         ),
