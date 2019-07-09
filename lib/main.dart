@@ -381,7 +381,7 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
             ),
             javascriptChannels: Set.from([
               sendFirebaseTokenToWeb(this.webViewController),
-              loadUrlOnNewView(this.webViewController),
+              requestLocation(this.webViewController),
             ]),
           ),
           bottomNavigationBar: BottomNavigationBar(
@@ -558,12 +558,12 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
     );
   }
 
-  JavascriptChannel loadUrlOnNewView(WebViewController wvc){
+  JavascriptChannel requestLocation(WebViewController wvc){
     return JavascriptChannel(
-      name: 'loadUrlOnNewView',
+      name: 'requestLocation',
       onMessageReceived: (JavascriptMessage message){
         print(message.message);
-        wvc.evaluateJavascript("javascript:saveFirebaseTokenInUser();");
+        wvc.evaluateJavascript("${message.message}");
       }
     );
   }
