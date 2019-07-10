@@ -7,6 +7,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
 
+  var _opacity = 0.0;
   var _id = '';
   var _pw = '';
 
@@ -46,6 +47,9 @@ class _LoginState extends State<Login> {
               onPressed: (){
 
                 print('id:$_id , pw:$_pw');
+                setState(() {
+                 _opacity = _opacity==0.0?1.0:0.0; 
+                });
               },
             ),Wrap(
               spacing: 8.0, // gap between adjacent chips
@@ -74,7 +78,11 @@ class _LoginState extends State<Login> {
                   label: Text('Laurens'),
                 ),
               ],
-            ),ClipRRect(
+            ),AnimatedOpacity(
+              duration: Duration(seconds: 1),
+              opacity: _opacity,
+              
+              child: ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
               child: Align(
                 alignment: Alignment.center,
@@ -82,6 +90,7 @@ class _LoginState extends State<Login> {
                 widthFactor: 0.5,
                 child: Image.asset('assets/image/potato.jpg',alignment: Alignment.center,fit: BoxFit.contain,),
               ),
+            ),
             )
           ],
         ),
