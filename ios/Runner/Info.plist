@@ -56,5 +56,9 @@
         <string>zh</string>
         <string>hk</string>
       </array>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<String>Your location is required for this app</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<String>Your location is required for this app</string>
 </dict>
 </plist>

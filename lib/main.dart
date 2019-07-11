@@ -21,6 +21,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'bottom_sheet_fix_status_bar.dart';
+import 'package:location/location.dart';
 
 
 const List<String> assetNames = <String>[
@@ -82,6 +83,11 @@ class _HomePageState extends State<HomePage> {
   bool visibilityBackButton = false;
   bool visibilityBadgeButton = false;
 
+  LocationData currentLocation;
+
+  var location = new Location();
+  String error;
+
   final FirebaseMessaging _messaging = FirebaseMessaging();
   final List<Message> messages = [];
   static const platform = const MethodChannel('flutter.native/helper');
@@ -125,10 +131,32 @@ class _HomePageState extends State<HomePage> {
     _badgeCount>0 ? _changedVisibility(true, 'badgeButton') : _changedVisibility(false, 'badgeButton');
   }
 
+  void initPlatformLocationState() async {
+    try{
+      currentLocation = await location.getLocation();
+      error = "";
+    }on PlatformException catch(e){
+      if(e.code == 'PERMISSION_DENIED')
+        error = 'Permission denied';
+      else if(e.code == 'PERMISSION_DENIED_NEVER_ASK')
+        error = 'Permission denied - please ask the user to enable it from the app setting';
+      currentLocation = null;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
 
+    //Default variables set  is  0
+    initPlatformLocationState();
+    location.onLocationChanged().listen((LocationData result){
+      setState(() {
+        currentLocation = result;
+        print('result.latitude:${result.latitude}');
+        print('result.longitude:${result.longitude}');
+      });
+    });
 
     //svg파일 to asset
     for (String assetName in assetNames) {
