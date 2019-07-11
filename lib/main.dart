@@ -84,6 +84,8 @@ class _HomePageState extends State<HomePage> {
   bool visibilityBadgeButton = false;
 
   LocationData currentLocation;
+  double myLatitude = 0.0;
+  double myLongitude= 0.0;
 
   var location = new Location();
   String error;
@@ -134,6 +136,8 @@ class _HomePageState extends State<HomePage> {
   void initPlatformLocationState() async {
     try{
       currentLocation = await location.getLocation();
+      myLatitude = currentLocation.latitude;
+      myLongitude = currentLocation.longitude;
       error = "";
     }on PlatformException catch(e){
       if(e.code == 'PERMISSION_DENIED')
@@ -148,13 +152,13 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    //Default variables set  is  0
     initPlatformLocationState();
+
     location.onLocationChanged().listen((LocationData result){
       setState(() {
         currentLocation = result;
-        print('result.latitude:${result.latitude}');
-        print('result.longitude:${result.longitude}');
+        myLatitude = currentLocation.latitude;
+        myLongitude = currentLocation.longitude;
       });
     });
 
