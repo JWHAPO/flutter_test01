@@ -24,6 +24,14 @@ class _LoginState extends State<Login> {
           child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            RichText(text: TextSpan(
+             style: DefaultTextStyle.of(context).style,
+             children: <TextSpan>[
+               TextSpan(text: 'It''s ', style: TextStyle(color: Colors.blue, fontSize: 6.0)),
+               TextSpan(text: 'Login', style: TextStyle(color: Colors.blueAccent, fontSize: 10.0)),
+               TextSpan(text: 'Page.', style: TextStyle(color: Colors.blue, fontSize: 6.0)),
+             ]
+          )),
             TextField(
               enabled: true,
               maxLength: 20,
