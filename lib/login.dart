@@ -25,6 +25,11 @@ class _LoginState extends State<Login> {
           child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Draggable(
+              child: Text('Dragable',style: TextStyle(color: Colors.blue),),
+              feedback: Text('Dragable',style: TextStyle(color: Colors.red),),
+              childWhenDragging: Text('Dragable',style: TextStyle(color: Colors.green),),
+            ),
             RichText(text: TextSpan(
              style: DefaultTextStyle.of(context).style,
              children: <TextSpan>[

@@ -558,11 +558,6 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
       'cookie': await prefs.getCookie()
     };
 
-    if (choice == Actions.Settings) {
-      this.webViewController.loadUrl('https://www.daum.net',headers: headers);
-    } else if (choice == Actions.Subscribe) {
-      this.webViewController.loadUrl('https://www.android.com');
-    }
   }
 
   JavascriptChannel sendFirebaseTokenToWeb(WebViewController wvc){
