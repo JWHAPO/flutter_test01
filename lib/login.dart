@@ -51,6 +51,12 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin{
 
     return MaterialApp(
       home: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () { },
+            tooltip: 'Increment',
+            child: Icon(Icons.add),
+            elevation: 2.0,
+          ),
         body: SafeArea(
           child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
