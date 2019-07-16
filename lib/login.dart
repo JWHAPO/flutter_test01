@@ -38,6 +38,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin{
 
   void _onTabDown(TapDownDetails details){
     _controller.forward();
+
   }
 
   void _onTabUp(TapUpDetails details){
@@ -147,7 +148,7 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin{
                       child: Image.asset('assets/image/potato.jpg',alignment: Alignment.center,fit: BoxFit.contain,),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
