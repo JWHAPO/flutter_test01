@@ -63,6 +63,10 @@ class _LoginState extends State<Login> with SingleTickerProviderStateMixin{
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                Center(child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/loading.gif',
+                  image: 'https://avatars1.githubusercontent.com/u/38322328?s=460&v=4',
+                ),),
                 Draggable(
                   child: Text('Dragable',style: TextStyle(color: Colors.blue),),
                   feedback: Text('Dragable',style: TextStyle(color: Colors.red),),
