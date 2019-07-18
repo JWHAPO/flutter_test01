@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hapo_flutter01/login.dart';
+import 'package:hapo_flutter01/bloc_sample.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'data/Actions.dart';
@@ -472,6 +473,15 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
     setState(() { 
       _currentIndex = index;
       this.webViewController.loadUrl(urls[_currentIndex]);
+
+      if(_currentIndex==2){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BlocSample(),
+          ),
+        );
+      }
 
       if(_currentIndex==3){
         _badgeCount = 0;
