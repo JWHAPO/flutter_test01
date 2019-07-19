@@ -28,8 +28,6 @@ class _TodoPageState extends State<TodoPage> {
     final todoBloc = TodoProvider.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Title'),
-      ),
       body: Center(
         child: Column(
           children: <Widget>[

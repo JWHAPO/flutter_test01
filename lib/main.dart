@@ -486,12 +486,7 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
             builder: (context) {
               return TodoProvider(
                 todoBloc: TodoBloc(API()),
-                child: MaterialApp(
-                  debugShowCheckedModeBanner: false,
-                  title: 'Flutter Bloc Demo',
-                  theme: ThemeData(primarySwatch: Colors.blue),
-                  home: TodoPage()
-                ),
+                child: TodoPage(),
               );
             },
           ),
