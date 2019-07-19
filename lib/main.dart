@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:hapo_flutter01/bloc/todo_provider.dart';
 import 'package:hapo_flutter01/login.dart';
 import 'package:hapo_flutter01/bloc_sample.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -23,6 +24,10 @@ import 'package:flutter_statusbarcolor/flutter_statusbarcolor.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'bottom_sheet_fix_status_bar.dart';
 import 'package:location/location.dart';
+import 'ui/todo_page.dart';
+import 'bloc/todo_bloc.dart';
+import 'bloc/todo_provider.dart';
+import 'repository/api.dart';
 
 
 const List<String> assetNames = <String>[
@@ -478,7 +483,17 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BlocSample(),
+            builder: (context) {
+              return TodoProvider(
+                todoBloc: TodoBloc(API()),
+                child: MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  title: 'Flutter Bloc Demo',
+                  theme: ThemeData(primarySwatch: Colors.blue),
+                  home: TodoPage()
+                ),
+              );
+            },
           ),
         );
       }
