@@ -19,6 +19,13 @@ class _TodoPageState extends State<TodoPage> {
       title: Text('$title'),
       subtitle: Text('completed ',
         style: TextStyle(color: completed?Colors.lightBlue : Colors.red),),
+      trailing: Icon(Icons.arrow_forward_ios),
+      onTap: (){
+
+      },
+      onLongPress: (){
+
+      },
     );
   }
   
