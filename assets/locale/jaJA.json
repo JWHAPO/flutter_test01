@@ -1,0 +1,8 @@
+{
+  "push_title": "Push notification",
+  "push_message": "Do you agree to receive push notifications for marketing and advertising information?",
+  "exit_title": "Message",
+  "exit_message": "Are you sure want to quit the app?",
+  "yes": "Yes",
+  "no": "No"
+}

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:core';
 
 import 'package:device_info/device_info.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -28,6 +29,8 @@ import 'model/Message.dart';
 import 'repository/api.dart';
 import 'splash_screen.dart';
 import 'ui/todo_page.dart';
+import 'package:hapo_flutter01/translation_delegate.dart';
+import 'package:hapo_flutter01/translations.dart';
 
 
 const List<String> assetNames = <String>[
@@ -49,6 +52,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: routes,
       localizationsDelegates: [
+        const TranslationsDelegate(),
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
@@ -60,6 +64,22 @@ class MyApp extends StatelessWidget {
         const Locale('zh','CN'),
         const Locale.fromSubtags(languageCode: 'zh', countryCode: 'HK')
       ],
+      localeResolutionCallback: (Locale locale, Iterable<Locale> supportedLocales){
+        if(locale==null){
+          debugPrint('*language locale is null');
+          return supportedLocales.first;
+        }
+
+        for(Locale supportedLocale in supportedLocales){
+          if(supportedLocale.languageCode == locale.languageCode || supportedLocale.countryCode == locale.countryCode){
+            debugPrint('*language ok $supportedLocale');
+            return supportedLocale;
+          }
+        }
+        debugPrint("*language to fallback ${supportedLocales.first}");
+        return supportedLocales.first;
+
+      },
     );
   }
 }
@@ -283,16 +303,16 @@ class _HomePageState extends State<HomePage> {
     showDialog(context: context,
     builder: (BuildContext context){
       return AlertDialog(
-        title: Text('Notification subscription'),
-        content: Text('Do you agree to receive the advertising message?'),
+        title: Text(Translations.of(context).trans('push_title')),
+        content: Text(Translations.of(context).trans('push_message')),
         actions: <Widget>[
           FlatButton(onPressed: (){
             Navigator.of(context).pop();
-          }, child: Text(Texts.no)),
+          }, child: Text(Translations.of(context).trans('no'))),
           FlatButton(onPressed: (){
             prefs.setIsAgreeOfPushMessaging(true);
             Navigator.of(context).pop();
-          }, child: Text(Texts.yes)),
+          }, child: Text(Translations.of(context).trans('yes'))),
         ],
       );
     });
@@ -367,14 +387,14 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
     return showDialog(
         context: context,
         builder: (context) => AlertDialog(
-              title: Text(Texts.msg_exit_question),
+              title: Text(Translations.of(context).trans('exit_message')),
               actions: <Widget>[
                 FlatButton(
-                  child: Text(Texts.no),
+                  child: Text(Translations.of(context).trans('no')),
                   onPressed: () => Navigator.pop(context, false),
                 ),
                 FlatButton(
-                  child: Text(Texts.yes),
+                  child: Text(Translations.of(context).trans('yes')),
                   onPressed: () => Navigator.pop(context, true),
                 )
               ],

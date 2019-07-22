@@ -7,7 +7,7 @@ class TranslationsDelegate extends LocalizationsDelegate<Translations> {
   const TranslationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => ['ko', 'en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => ['ko', 'en' ,'ja', 'ru', 'zh'].contains(locale.languageCode);
 
   @override
   Future<Translations> load(Locale locale) async {
@@ -15,6 +15,7 @@ class TranslationsDelegate extends LocalizationsDelegate<Translations> {
     await localizations.load();
 
     print("Load ${locale.languageCode}");
+    print("Load ${locale.countryCode}");
 
     return localizations;
   }

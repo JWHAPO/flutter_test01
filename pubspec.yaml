@@ -61,6 +61,7 @@ flutter:
     - assets/icon/
     - assets/image/
     - assets/gif/
+    - assets/locale/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

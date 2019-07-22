@@ -17,7 +17,8 @@ class Translations {
   Map<String, String> _sentences;
 
   Future<bool> load() async {
-    String data = await rootBundle.loadString('assets/locale/${this.locale.languageCode}.json'); // 경로 유의
+    print('${this.locale.languageCode}${this.locale.countryCode}');
+    String data = await rootBundle.loadString('assets/locale/${this.locale.languageCode}${this.locale.countryCode}.json'); // 경로 유의
     Map<String, dynamic> _result = json.decode(data);
 
     this._sentences = new Map();
