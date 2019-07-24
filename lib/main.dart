@@ -448,6 +448,8 @@ Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo data) {
               type: BottomNavigationBarType.shifting,
               fixedColor: Colors.lightBlue,
               unselectedItemColor: Colors.lightBlue,
+              selectedFontSize: 12.0,
+              unselectedFontSize: 12.0,
               items: [
                 BottomNavigationBarItem(
                     icon: _painters[0], title: Text(Texts.tab1)),
